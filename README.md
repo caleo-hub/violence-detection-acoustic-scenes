@@ -21,3 +21,40 @@ git clone https://github.com/caleo-hub/violence-detection-acoustic-scenes.git
 ```bash
 pip install -r requirements.txt
 ```
+
+# Datasets
+
+## Classes escolhidas
+   * Agressão física
+   * Disparo de arma de fogo
+   * Grito
+   * Discussões
+
+
+- [] HEAR Dataset
+  - Violência Física (socos, tapas)
+  - Áudio de Fundo (pets, television, toilet flush, door radio, water, vacuum cleaner, sobbing, noise, sink and fying)
+  - Áudio de Primeiro plano (insede, conversation and speech)
+
+- [] Gunshot Audio Forensics Dataset
+  - High Standard Sport King [.22LR, Pistol]
+  - S&W 34-1 [.22LR, Revolver]
+  - Ruger 10/22 [.22LR, Carbine]
+  - Remington 33 Bolt-Action Rifle [.22LR, Rifle]
+  - Lorcin L380 [.380 Auto, Pistol]
+  - S&W 10-8 [.38SPL, Revolver]
+  - Ruger Blackhawk [.357 MAG, Revolver]
+  - Glock 19 [9mm Luger, Pistol] (Qty 2)
+  - Sig P225 [9mm Luger, Pistol]
+  - M&P 40 [.40 S&W, Pistol] (Qty 2)
+  - HK USP Compact [.40 S&W, Pistol]
+  - Glock 21 [.45 Auto, Pistol]
+  - Colt 1911 [.45 Auto, Pistol]
+  - Kimber Tactical Custom [.45 Auto, Pistol]
+  - M16A1 AR15 [.223R/5.56, Rifle]
+  - WASR 10/63 AK47 [7.62x39mm, Carbine]
+  - Winchester M14 [.308W/7.62, Rifle]
+  - Remington 700 [.308W/7.62, Rifle]
+  - Rock River LAR-15 [.300 Blackout, Rifle]
+  - Russian SKS [7.62x39mm, Pistol]
+  - PWS MK107 Mod 1 [7.62×39, Pistol]
