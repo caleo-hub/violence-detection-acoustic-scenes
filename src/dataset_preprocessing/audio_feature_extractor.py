@@ -87,5 +87,6 @@ class AudioFeatureExtractor:
                 if i % 1000 == 0:
                     print(f"Processado {i} audios")
                             
-                feature_ds = features_group.create_dataset(f"{i}", data=np.array(feature_array))
+                feature_ds = features_group.create_dataset(f"{i}",
+                                                           data=np.array(feature_array))
                 annotation_ds = annotations_group.create_dataset(f"{i}", data=np.array(annotation))
