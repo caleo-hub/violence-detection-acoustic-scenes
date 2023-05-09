@@ -65,5 +65,5 @@ class FilmFeatureExtractor:
                         padded_features = librosa.util.pad_center(sliced_features, size=target_length, axis=0)
                         dataset_name = f"{movie}_{idx}_{i}"
                         features_group.create_dataset(dataset_name, data=padded_features)
-                        annotations_group.create_dataset(dataset_name, data=np.array([annotation], dtype=np.int8)) 
+                        annotations_group.create_dataset(dataset_name, data=np.array(annotation)) 
                         print(dataset_name)
