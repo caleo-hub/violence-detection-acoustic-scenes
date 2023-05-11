@@ -131,3 +131,5 @@ dmypy.json
 # Dataset Folder
 Datasets
 *.h5
+
+*.pth
