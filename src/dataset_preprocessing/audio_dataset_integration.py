@@ -1,102 +1,53 @@
 import os
-import librosa
-import numpy as np
-import pandas as pd
 import h5py
-
+import librosa
+from tqdm import tqdm
 
 class AudioDatasetIntegrator:
-    def get_audio_dataset(self, path, file_output):
-        audio_info_df = self.organize_dataframe(self.extract_audio_info(folder=path))
-        annotations = self.annotations_loader(audio_info_df)
-        self.audio_loader(audio_info_df, annotations, h5_filepath=file_output)
 
-    def annotations_loader(self, audio_info_df):
-        annotation_dict = {
-            "(nothing)": 0,
-            "scream": 1,
-            "Violência Física": 2,
-            "gunshot_forensic": 3,
-            "explosions": 4,
-        }
+    def __init__(self, dataset_path, output_path):
+        self.dataset_path = dataset_path
+        self.output_path = output_path
 
-        annotation_list = []
-        annotation_list = (
-            audio_info_df["Anotação"].apply(lambda x: annotation_dict[x]).tolist()
-        )
+    def process_audio_files(self):
+        with h5py.File(self.output_path, 'w') as f:
+            audio_group = f.create_group('audio')
 
-        annotation_list = np.array(annotation_list, np.int16)
+            for i, (dirpath, _, filenames) in enumerate(tqdm(os.walk(self.dataset_path), desc='Walking through directories')):
+                for filename in filenames:
+                    if filename.endswith('.wav') or filename.endswith('.mp3'):
+                        try:
+                            full_path = os.path.join(dirpath, filename)
+                            audio, sr = librosa.load(full_path, sr=16000)
+                            if len(audio) > 160000:  # if audio is longer than 10 seconds
+                                start = len(audio) // 2 - 80000  # take 10 second slice in the middle
+                                audio = audio[start:start + 160000]
+                            elif len(audio) < 160000:  # if audio is shorter than 10 seconds
+                                audio = librosa.util.pad_center(data=audio, size=160000)  # pad to 10 seconds
 
-        return annotation_list
+                            dataset = audio_group.create_dataset(f'{filename}_{i}', data=audio)
+                            dataset.attrs['path'] = full_path
 
-    def audio_loader(self, audio_info_df, annotation, h5_filepath):
-        sample_rate = 16_000
-        duration_seconds = 10
+                        except Exception as e:
+                            print(f'Error processing {filename}: {e}')
 
-        # Cria um arquivo h5 para armazenar os áudios
-        with h5py.File(h5_filepath, "w") as f:
-            audio_group = f.create_group(name="audio")
-            annotation_group = f.create_group(name="annotation")
-            for index, row in audio_info_df.iterrows():
-                try:
-                    audio, sr = librosa.load(row["Filepath"], sr=sample_rate)
-                    new_len = sr * duration_seconds
-                    padded_audio = librosa.util.pad_center(audio, size=new_len)
+    def annotate_audio_files(self):
+        with h5py.File(self.output_path, 'r+') as f:
+            audio_group = f['audio']
+            annotation_group = f.create_group('annotations')
 
-                    audio_group.create_dataset(str(index), data=padded_audio)
-                    annotation_group.create_dataset(
-                        name=str(index), data=annotation[index]
-                    )
+            for name, dataset in tqdm(audio_group.items(), desc='Annotating audio files'):
+                path = dataset.attrs['path']
+                annotation = 0
+                if "HEAR Dataset" in path:
+                    if "NAO_VIOLENCIA" in path:
+                        annotation = 0
+                    else:
+                        annotation = 2
+                elif "gunshot" in path.lower():
+                    annotation = 3
+                elif "explosion" in path.lower():
+                    annotation = 4
 
-                    if index % 1000 == 0:
-                        print(f"Processado {index} audios")
-                except Exception as e:
-                    print(f"Erro ao carregar o arquivo {row['Filepath']}: {str(e)}")
-
-    def extract_audio_info(self, folder):
-        data = []
-        for dirpath, dirnames, filenames in os.walk(folder):
-            for filename in filenames:
-                if filename.endswith(".wav") or filename.endswith(".mp3"):
-                    file_path = os.path.join(dirpath, filename)
-                    duration = librosa.get_duration(path=file_path)
-                    sample_rate = librosa.get_samplerate(file_path)
-                    data.append([duration, file_path, sample_rate])
-        df = pd.DataFrame(data, columns=["Duração", "Filepath", "Amostragem"])
-        return df
-
-    def organize_dataframe(self, df):
-        df["Classe"] = ""
-        df["Anotação"] = ""
-        df["Tag"] = ""
-
-        df["Início"] = ""
-        df["Final"] = ""
-
-        for i, row in df.iterrows():
-            if "HEAR Dataset" in row["Filepath"] and "NAO_VIOLENCIA" in row["Filepath"]:
-                df.at[i, "Classe"] = "Violência Física"
-                df.at[i, "Anotação"] = "(nothing)"
-            elif "HEAR Dataset" in row["Filepath"] and "VIOLENCIA" in row["Filepath"]:
-                df.at[i, "Classe"] = "Violência Física"
-                df.at[i, "Anotação"] = "Violência Física"
-            elif "Gunshot Audio Forensic Dataset" in row["Filepath"]:
-                df.at[i, "Classe"] = "gunshots"
-                df.at[i, "Anotação"] = "gunshot_forensic"
-                df.at[i, "Tag"] = os.path.basename(
-                    os.path.dirname(row["Filepath"])
-                ).replace("_Samsung", "")
-            df.at[i, "Início"] = 0
-            df.at[i, "Final"] = df.at[i, "Duração"]
-        return df[
-            [
-                "Classe",
-                "Duração",
-                "Anotação",
-                "Tag",
-                "Filepath",
-                "Início",
-                "Final",
-                "Amostragem",
-            ]
-        ]
+                annotation_dataset = annotation_group.create_dataset(name, data=annotation)
+                annotation_dataset.attrs['path'] = path
