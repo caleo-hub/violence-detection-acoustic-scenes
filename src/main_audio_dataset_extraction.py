@@ -9,7 +9,7 @@ def main():
     ]
 
     for dataset_name, dataset_path in datasets_path:
-        output_path = f'src/h5_files_new/{dataset_name}_dataset.h5'
+        output_path = f'src/h5_files/{dataset_name}_dataset.h5'
         print(f"Processing {dataset_name} dataset")
         integrator = AudioDatasetIntegrator(dataset_path, output_path)
         integrator.process_audio_files()
