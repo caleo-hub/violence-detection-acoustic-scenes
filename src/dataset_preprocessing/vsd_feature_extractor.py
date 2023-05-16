@@ -8,17 +8,21 @@ class FilmFeatureExtractor:
     def __init__(self, annotations, mat_files_path):
         self.annotations = annotations
         self.mat_files_path = mat_files_path
+        
+    def normalize_feature(self, feature):
+        return (feature - np.min(feature)) / (np.max(feature) - np.min(feature))
 
     def process_mat_file(self, mat_file_path):
         with h5py.File(mat_file_path, "r") as mat_data:
-            ae = np.array(mat_data["AE"])
-            rms = np.array(mat_data["RMS"])
-            zcr = np.array(mat_data["ZCR"])
-            ber = np.array(mat_data["BER"])
-            sc = np.array(mat_data["SC"])
-            bw = np.array(mat_data["BW"])
-            sf = np.array(mat_data["SF"])
-            mfcc = np.array(mat_data["MFCC"])
+            
+            ae = self.normalize_feature(np.array(mat_data["AE"]))
+            rms = self.normalize_feature(np.array(mat_data["RMS"]))
+            zcr = self.normalize_feature(np.array(mat_data["ZCR"]))
+            ber = self.normalize_feature(np.array(mat_data["BER"]))
+            sc = self.normalize_feature(np.array(mat_data["SC"]))
+            bw = self.normalize_feature(np.array(mat_data["BW"]))
+            sf = self.normalize_feature(np.array(mat_data["SF"]))
+            mfcc = self.normalize_feature(np.array(mat_data["MFCC"]))
 
             feature_array = np.concatenate(
                 [ae, rms, zcr, ber, sc, bw, sf, mfcc], axis=1
@@ -38,7 +42,7 @@ class FilmFeatureExtractor:
                     hf.create_dataset(film_name, data=feature_array)
                 else:
                     print(f"Arquivo .mat não encontrado para o filme {film_name}.")
-
+    
     def create_labeled_features(
         self, features_h5_path, movie_annotations, output_h5_path
     ):
@@ -76,9 +80,16 @@ class FilmFeatureExtractor:
                     for i in range(num_slices):
                         slice_start = start_sample + i * target_length
                         slice_end = min(slice_start + target_length, end_sample)
+                        
+                        
+                        
                         sliced_features = movie_features[
                             slice_start:slice_end, :
                         ].astype(np.float32)
+                        
+                        
+                        
+                        
                         padded_features = librosa.util.pad_center(
                             sliced_features, size=target_length, axis=0
                         )

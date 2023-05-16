@@ -4,8 +4,10 @@ from dataset_preprocessing.audio_feature_extractor import AudioFeatureExtractor
 
 def main():
     datasets_path = [
-        ('HEAR_Train', 'src/h5_files/HEAR_Train_dataset.h5'),
-        ('HEAR_Test', 'src/h5_files/HEAR_Test_dataset.h5'),
+        ('GunshotForensic', 'src/h5_files_old/GunshotForensic_dataset.h5'),
+        ('SESA', 'src/h5_files_old/SESA_dataset.h5'),
+        ('HEAR_Train', 'src/h5_files_old/HEAR_Train_dataset.h5'),
+        ('HEAR_Test', 'src/h5_files_old/HEAR_Test_dataset.h5'),
 
     ]
 
