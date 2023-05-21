@@ -135,3 +135,5 @@ DatasetExtra
 
 *.pth
 .vscode
+*.wav
+*.mp3
