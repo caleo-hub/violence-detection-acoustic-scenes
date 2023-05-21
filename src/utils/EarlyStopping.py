@@ -1,14 +1,16 @@
 import numpy as np
 import torch
 
+
 class EarlyStopping:
     """Early stops the training if validation loss doesn't improve after a given patience."""
+
     def __init__(self, fold, patience=7, verbose=False, delta=0):
         """
         Args:
             patience (int): How long to wait after last time validation loss improved.
                             Default: 7
-            verbose (bool): If True, prints a message for each validation loss improvement. 
+            verbose (bool): If True, prints a message for each validation loss improvement.
                             Default: False
             delta (float): Minimum change in the monitored quantity to qualify as an improvement.
                             Default: 0
@@ -23,7 +25,6 @@ class EarlyStopping:
         self.fold = fold
 
     def __call__(self, val_loss, model):
-
         score = -val_loss
 
         if self.best_score is None:
@@ -31,7 +32,7 @@ class EarlyStopping:
             self.save_checkpoint(val_loss, model)
         elif score < self.best_score + self.delta:
             self.counter += 1
-            print(f'EarlyStopping counter: {self.counter} out of {self.patience}')
+            print(f"EarlyStopping counter: {self.counter} out of {self.patience}")
             if self.counter >= self.patience:
                 self.early_stop = True
         else:
@@ -40,8 +41,10 @@ class EarlyStopping:
             self.counter = 0
 
     def save_checkpoint(self, val_loss, model):
-        '''Saves model when validation loss decrease.'''
+        """Saves model when validation loss decrease."""
         if self.verbose:
-            print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
-        torch.save(model.state_dict(), f'models/checkpoint/checkpoint_{self.fold}.pth')
+            print(
+                f"Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ..."
+            )
+        torch.save(model.state_dict(), f"models/checkpoint/checkpoint_{self.fold}.pth")
         self.val_loss_min = val_loss

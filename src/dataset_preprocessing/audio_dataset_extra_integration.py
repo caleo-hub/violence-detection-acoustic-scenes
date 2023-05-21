@@ -23,7 +23,7 @@ class AudioExtraDatasetIntegrator:
         annotation_list = (
             audio_info_df["Anotação"].apply(lambda x: annotation_dict[x]).tolist()
         )
-        
+
         annotation_list = np.array(annotation_list, np.int16)
         return annotation_list
 
@@ -36,10 +36,12 @@ class AudioExtraDatasetIntegrator:
             for index, row in audio_info_df.iterrows():
                 try:
                     audio, sr = librosa.load(row["Filepath"], sr=sample_rate)
-                    
+
                     # Se o áudio for maior que 10 segundos, pegue os 10 segundos centrais
                     if len(audio) / sr > duration_seconds:
-                        start_sample = int((len(audio) / 2) - (duration_seconds * sr / 2))
+                        start_sample = int(
+                            (len(audio) / 2) - (duration_seconds * sr / 2)
+                        )
                         end_sample = start_sample + duration_seconds * sr
                         audio = audio[start_sample:end_sample]
 
@@ -56,7 +58,6 @@ class AudioExtraDatasetIntegrator:
                 except Exception as e:
                     print(f"Erro ao carregar o arquivo {row['Filepath']}: {str(e)}")
 
-
     def extract_audio_info(self, folder):
         data = []
         for dirpath, dirnames, filenames in os.walk(folder):
@@ -67,7 +68,7 @@ class AudioExtraDatasetIntegrator:
                     sample_rate = librosa.get_samplerate(file_path)
                     data.append([duration, file_path, sample_rate])
         df = pd.DataFrame(data, columns=["Duração", "Filepath", "Amostragem"])
-        
+
         return df
 
     def organize_dataframe(self, df):
@@ -88,14 +89,14 @@ class AudioExtraDatasetIntegrator:
             else:
                 df.at[i, "Classe"] = ""
                 df.at[i, "Anotação"] = ""
-            
+
             df.at[i, "Início"] = 0
             df.at[i, "Final"] = df.at[i, "Duração"]
 
         # Filtrar linhas onde a classe não está vazia
-        df = df[df['Classe'] != ""]
-        df = df[df['Anotação'] != ""]
-        
+        df = df[df["Classe"] != ""]
+        df = df[df["Anotação"] != ""]
+
         df = df.reset_index()
         return df[
             [

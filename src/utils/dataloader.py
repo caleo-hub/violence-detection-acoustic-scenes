@@ -4,6 +4,7 @@ import torch
 from sklearn.model_selection import StratifiedKFold
 from torch.utils.data import DataLoader, Subset, Dataset
 
+
 class H5Dataset(Dataset):
     def __init__(self, h5_files, exclude_classes=None, transform=None, n_splits=5):
         self.h5_files = h5_files
@@ -30,14 +31,13 @@ class H5Dataset(Dataset):
         h5_file, key = self.keys[index]
         with h5py.File(h5_file, "r") as f:
             sample = f["features"][key][()].astype(np.float32)  # Convert to float
+            sample = np.nan_to_num(sample)  # Replace any nan values with 0
             label = int(f["annotations"][key][()])
-            
-            
+
         if self.transform:
             sample = self.transform(sample)
 
         return sample, label
-
 
     def __len__(self):
         return len(self.keys)
@@ -47,7 +47,17 @@ class H5Dataset(Dataset):
         for train_index, val_index in self.skf.split(self.keys, self.labels):
             train_dataset = Subset(self, train_index)
             val_dataset = Subset(self, val_index)
-            train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-            val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+            train_loader = DataLoader(
+                train_dataset,
+                batch_size=batch_size,
+                shuffle=True,
+                num_workers=num_workers,
+            )
+            val_loader = DataLoader(
+                val_dataset,
+                batch_size=batch_size,
+                shuffle=False,
+                num_workers=num_workers,
+            )
             data_loaders.append((train_loader, val_loader))
         return data_loaders
