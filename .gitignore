@@ -130,6 +130,10 @@ dmypy.json
 
 # Dataset Folder
 Datasets
+DatasetExtra
 *.h5
 
 *.pth
+.vscode
+*.wav
+*.mp3

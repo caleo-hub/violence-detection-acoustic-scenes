@@ -12,10 +12,10 @@ feature_extraction = FilmFeatureExtractor(
     mat_files_path="C:/Users/CSANT321/Documents/TCC/violence-detection-acoustic-scenes/Datasets/VSD_2014_December_official_release/Hollywood-dev/features",
 )
 
-feature_extraction.process_all_films(output_file_path="src/h5_files/vsd_features.h5")
+feature_extraction.process_all_films(output_file_path="src/h5_files/vsd_feature.h5")
 
 feature_extraction.create_labeled_features(
-    features_h5_path="src/h5_files/vsd_features.h5",
+    features_h5_path="src/h5_files/vsd_feature.h5",
     movie_annotations=movie_annotations,
-    output_h5_path="src/h5_files/vsd_clipped_features.h5",
+    output_h5_path="src/h5_files/vsd_clipped_feature.h5",
 )
