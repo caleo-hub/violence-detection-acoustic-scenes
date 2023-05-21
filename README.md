@@ -22,19 +22,44 @@ git clone https://github.com/caleo-hub/violence-detection-acoustic-scenes.git
 pip install -r requirements.txt
 ```
 
+## Baixe o modelo treinado
+Baixe o modelo treinado no [link](https://drive.google.com/file/d/11OuE2eTB8Y0whF772LtGy_FEKKGK-tGL/view?usp=share_link
+)
+
+E coloque o arquivo .pth no folder src/models
+
+## Teste Você Mesmo
+Execute o main_test.ipynb para testar com seu próprio áudio
+
+
 # Datasets
 
 ## Classes escolhidas
    * Agressão física
    * Disparo de arma de fogo
    * Grito
-   * Discussões
 
+
+
+- [] Google Audioset
+  - Screaming
+  - Gunshots, gunfire
+  - Slap, smack
+  
+- [] MIVIA audio events data set for surveillance applications
+  - Scream
+  - Gunshot
+  - Casual
+- 
+- [] Sound Events for Surveillance Applications (SESA) Dataset
+  - Casual (not a threat)
+  - Gunshot
+  - Explosion
 
 - [] HEAR Dataset
   - Violência Física (socos, tapas)
   - Áudio de Fundo (pets, television, toilet flush, door radio, water, vacuum cleaner, sobbing, noise, sink and fying)
-  - Áudio de Primeiro plano (insede, conversation and speech)
+  - Áudio de Primeiro plano (inside, conversation and speech)
 
 - [] Gunshot Audio Forensics Dataset
   - High Standard Sport King [.22LR, Pistol]
@@ -58,3 +83,5 @@ pip install -r requirements.txt
   - Rock River LAR-15 [.300 Blackout, Rifle]
   - Russian SKS [7.62x39mm, Pistol]
   - PWS MK107 Mod 1 [7.62×39, Pistol]
+
+
