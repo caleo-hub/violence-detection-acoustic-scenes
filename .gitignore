@@ -136,3 +136,4 @@ Datasets_teste
 *.pth
 
 .vscode
+*.zip
