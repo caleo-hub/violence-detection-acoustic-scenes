@@ -39,6 +39,8 @@ Execute o main_test.ipynb para testar com seu próprio áudio
 
 ### Datasets
 
+### Datasets
+
 - Gunshot Audio Forensics Dataset:
   - Ryan Lilien, Jason Housman, Ram Mettu, Todd Weller, Lucien Haag, Michael Haag. "Gunshot Audio Forensics Dataset." 2017. [Link](http://cadreforensics.com/audio/). DOI: [10.1371/journal.pone.0183754](https://doi.org/10.1371/journal.pone.0183754)
 
@@ -53,4 +55,11 @@ Execute o main_test.ipynb para testar com seu próprio áudio
 
 - HEAR Dataset:
   - Tiago Lacerda, Péricles Miranda, André Câmara, Ana Furtado. "Deep Learning and Mel-spectrograms for Physica Violence Detection in Audio." Anais do XVIII Encontro Nacional de Inteligência Artificial e Computacional, 2021. [Link](https://sol.sbc.org.br/index.php/eniac/article/view/18259). DOI: [10.5753/eniac.2021.18259](https://doi.org/10.5753/eniac.2021.18259)
+
+- Violent Scenes Dataset:
+  - C.H. Demarty, C. Penet, M. Soleymani, G. Gravier. "VSD, a public dataset for the detection of violent scenes in movies: design, annotation, analysis and evaluation." Multimedia Tools and Applications, 2014. [Link](https://www.interdigital.com/data_sets/violent-scenes-dataset)
+
+- AudioSet Processing:
+  - Aoife McDonagh. "AudioSet Processing." 2023. [Link](https://github.com/aoifemcdonagh/audioset-processing)
+
 
