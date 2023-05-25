@@ -11,9 +11,7 @@ Este repositório inclui códigos para todas as etapas do projeto, organizados e
 ## Instruções de uso:
 Para utilizar os códigos deste repositório, siga os passos:
 
-1. Clone o repositório:
-
-2. Instale as dependências:
+1. Instale as dependências:
 ```bash
 pip install -r requirements.txt
 ```
@@ -36,8 +34,6 @@ Execute o main_test.ipynb para testar com seu próprio áudio
    * Agressão física
    * Disparo de arma de fogo
    
-
-### Datasets
 
 ### Datasets
 
