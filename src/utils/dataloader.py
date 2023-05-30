@@ -6,10 +6,18 @@ from torch.utils.data import DataLoader, Subset, Dataset
 
 
 class H5Dataset(Dataset):
-    def __init__(self, h5_files, exclude_classes=None, transform=None, n_splits=5):
+    def __init__(
+        self,
+        h5_files,
+        random_state=21,
+        exclude_classes=None,
+        transform=None,
+        n_splits=5,
+    ):
         self.h5_files = h5_files
         self.transform = transform
         self.n_splits = n_splits
+        self.random_state = random_state
 
         if exclude_classes is None:
             exclude_classes = []
@@ -25,7 +33,7 @@ class H5Dataset(Dataset):
                         self.keys.append((h5_file, key))
                         self.labels.append(label)
 
-        self.skf = StratifiedKFold(n_splits=n_splits)
+        self.skf = StratifiedKFold(n_splits=n_splits, random_state=self.random_state, shuffle=True)
 
     def __getitem__(self, index):
         h5_file, key = self.keys[index]
