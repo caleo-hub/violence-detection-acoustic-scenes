@@ -33,7 +33,9 @@ class H5Dataset(Dataset):
                         self.keys.append((h5_file, key))
                         self.labels.append(label)
 
-        self.skf = StratifiedKFold(n_splits=n_splits, random_state=self.random_state, shuffle=True)
+        self.skf = StratifiedKFold(
+            n_splits=n_splits, random_state=self.random_state, shuffle=True
+        )
 
     def __getitem__(self, index):
         h5_file, key = self.keys[index]

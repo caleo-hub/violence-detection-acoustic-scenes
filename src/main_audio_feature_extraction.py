@@ -8,6 +8,8 @@ def main():
         ("HEAR_Train", "src/h5_files/HEAR_Train_dataset.h5"),
         ("HEAR_Test", "src/h5_files/HEAR_Test_dataset.h5"),
         ("Audioset", "src/h5_files/Audioset_dataset.h5"),
+        ("MIVIA_Train", "src/h5_files/MIVIA_train_dataset.h5"),
+        ("MIVIA_Test", "src/h5_files/MIVIA_test_dataset.h5"),
     ]
 
     for dataset_name, dataset_path in datasets_path:
