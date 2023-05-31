@@ -17,10 +17,9 @@ pip install -r requirements.txt
 ```
 
 ## Baixe o modelo treinado
-Baixe os modelos treinado no [link](https://drive.google.com/drive/folders/1tdLO9I310XDlEV_5JDY-9zFNaZaYZpFU?usp=share_link
-)
+Baixe os modelos treinado no [link](https://ufbabr-my.sharepoint.com/:f:/g/personal/caleo_santos_ufba_br/EvJ5QjhGei9Mq6_c95N6mzsBOkPOWoigbCx0XUu-egpstA?e=7LsHs2)
 
-E extraia o arquivo .zip na pasta src/models
+E mova as pastas para o caminho src/models
 
 ## Teste Você Mesmo
 Execute o main_test.ipynb para testar com seu próprio áudio
